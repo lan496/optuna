@@ -99,6 +99,7 @@ test = [
   "kaleido<0.4",  # TODO(nzw0301): Remove the version constraint by installing browser separately.
   "moto",
   "pytest",
+  "pytest-xdist",
   "scipy>=1.9.2",
   "torch; python_version<='3.12'",  # TODO(gen740): Remove this line when 'torch', a dependency of 'optuna/_gp', supports Python 3.13
   "grpcio",  # optuna/storages/_grpc.
@@ -166,7 +167,7 @@ force_sort_within_sections = 'True'
 order_by_type = 'False'
 
 [tool.pytest.ini_options]
-addopts = "--color=yes"
+addopts = "--color=yes --dist=loadgroup"
 filterwarnings = 'ignore::optuna.exceptions.ExperimentalWarning'
 markers = [
   "skip_coverage: marks tests are skipped when calculating the coverage",

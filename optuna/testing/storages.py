@@ -8,6 +8,7 @@ from typing import IO
 from typing import TYPE_CHECKING
 
 import fakeredis
+import pytest
 
 import optuna
 from optuna.storages import BaseStorage
@@ -25,13 +26,14 @@ else:
 
 
 STORAGE_MODES: list[Any] = [
-    "inmemory",
-    "sqlite",
-    "cached_sqlite",
-    "journal",
-    "journal_redis",
-    "grpc_rdb",
-    "grpc_journal_file",
+    pytest.param("inmemory"),
+    pytest.param("sqlite"),
+    pytest.param("cached_sqlite"),
+    pytest.param("journal"),
+    pytest.param("journal_redis"),
+    # The following storage modes need to be run in the same worker to avoid flaky test failures.
+    pytest.param("grpc_rdb", marks=pytest.mark.xdist_group("grpc")),
+    pytest.param("grpc_journal_file", marks=pytest.mark.xdist_group("grpc")),
 ]
 
 

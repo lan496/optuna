@@ -20,6 +20,8 @@ def _test_set_and_get_compatibility(
     assert storage_get.get_trial(trial_id).values == values
 
 
+# This test needs to be run in the same worker as "grpc" tests to avoid flaky test failures.
+@pytest.mark.xdist_group("grpc")
 @pytest.mark.parametrize("storage_mode", STORAGE_MODES)
 @pytest.mark.parametrize("values", [None, [0.0]])
 def test_set_and_get_trial_state_values(storage_mode: str, values: list[float] | None) -> None:
